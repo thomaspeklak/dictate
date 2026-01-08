@@ -24,6 +24,11 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Language code (e.g., 'de' for German). Default: en",
     )
+    parser.add_argument(
+        "-r", "--raw",
+        action="store_true",
+        help="Skip Claude processing, output raw transcription",
+    )
     return parser.parse_args()
 
 
@@ -131,15 +136,18 @@ def main() -> int:
             Notifier.error("No speech detected")
             return 1
 
-        # Process with Claude
-        Notifier.processing()
-        agent = Agent(prompt_template=config.prompt_template)
-        try:
-            processed = agent.process(text)
-        except Exception as e:
-            # Fallback to raw transcription if Claude fails
+        # Process with Claude (unless --raw)
+        if args.raw:
             processed = text
-            Notifier.notify("Warning", f"Claude failed, using raw text: {e}", "dialog-warning")
+        else:
+            Notifier.processing()
+            agent = Agent(prompt_template=config.prompt_template)
+            try:
+                processed = agent.process(text)
+            except Exception as e:
+                # Fallback to raw transcription if Claude fails
+                processed = text
+                Notifier.notify("Warning", f"Claude failed, using raw text: {e}", "dialog-warning")
 
         # Copy to clipboard
         copy_to_clipboard(processed)
