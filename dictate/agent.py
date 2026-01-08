@@ -8,8 +8,9 @@ from .config import DEFAULT_PROMPT
 class Agent:
     """Process text through Claude CLI."""
 
-    def __init__(self, prompt_template: str | None = None):
+    def __init__(self, prompt_template: str | None = None, model: str = "haiku"):
         self.prompt_template = prompt_template or DEFAULT_PROMPT
+        self.model = model
 
     def process(self, text: str, timeout: int = 120) -> str:
         """Process text through Claude CLI.
@@ -28,7 +29,7 @@ class Agent:
         prompt = self.prompt_template.format(text=text)
 
         result = subprocess.run(
-            ["claude", "-p", prompt],
+            ["claude", "-p", "--model", self.model, prompt],
             capture_output=True,
             text=True,
             timeout=timeout,
