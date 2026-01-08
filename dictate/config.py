@@ -5,9 +5,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 
-DEFAULT_PROMPT = """Clean up this dictated text. Fix grammar, punctuation, and formatting. If it's a list, format as bullet points.
+DEFAULT_PROMPT = """Clean up this dictated text. Fix grammar and punctuation. Keep the natural sentence structure - only use bullet points if the content is clearly a list.
 
-CRITICAL: Output ONLY the cleaned text. No commentary, no translations, no explanations. Keep the original language.
+CRITICAL: Output ONLY the cleaned text. No commentary, no translations, no explanations. Keep the original language. Minimal changes.
 
 {text}"""
 
