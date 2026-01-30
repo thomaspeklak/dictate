@@ -29,7 +29,8 @@ class Agent:
         prompt = self.prompt_template.format(text=text)
 
         result = subprocess.run(
-            ["claude", "-p", "--model", self.model, prompt],
+            ["claude", "-p", "--model", self.model],
+            input=prompt,
             capture_output=True,
             text=True,
             timeout=timeout,
