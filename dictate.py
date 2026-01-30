@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "faster-whisper>=1.0.0",
+#     "pyaudio>=0.2.13",
+#     "numpy>=1.24.0",
+# ]
+# ///
 """Dictate - Speech-to-text with agent processing.
 
 Toggle recording with keyboard shortcut (via GNOME keybinding).
@@ -28,6 +36,11 @@ def parse_args() -> argparse.Namespace:
         "-r", "--raw",
         action="store_true",
         help="Skip Claude processing, output raw transcription",
+    )
+    parser.add_argument(
+        "-t", "--type",
+        action="store_true",
+        help="Type text at cursor (in addition to clipboard)",
     )
     return parser.parse_args()
 
@@ -78,7 +91,7 @@ def main() -> int:
 
     # Import here to avoid slow startup when just signaling
     from dictate.agent import Agent
-    from dictate.clipboard import copy_to_clipboard
+    from dictate.clipboard import copy_to_clipboard, type_text
     from dictate.config import Config
     from dictate.notifier import Notifier
     from dictate.recorder import Recorder
@@ -151,6 +164,8 @@ def main() -> int:
 
         # Copy to clipboard
         copy_to_clipboard(processed)
+        if args.type:
+            type_text(processed)
         Notifier.done(processed)
 
         return 0
