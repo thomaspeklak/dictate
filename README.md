@@ -106,18 +106,45 @@ uv run ./dictate.py -l de -r -t
 
 ## Setting Up a Keyboard Shortcut
 
+### Hyprland
+
+Add to your `hyprland.conf` or keybinds config:
+
+```bash
+# Dictate - English (Super+Ctrl+Alt+E to toggle)
+bind = $mainMod CTRL ALT, e, exec, uv run ~/code/dictate/dictate.py --type
+
+# Dictate - German
+bind = $mainMod CTRL ALT, d, exec, uv run ~/code/dictate/dictate.py --type -l de
+
+# Raw mode (no Claude processing)
+bind = $mainMod SHIFT CTRL ALT, e, exec, uv run ~/code/dictate/dictate.py --type --raw
+```
+
+### Sway
+
+Add to your `~/.config/sway/config`:
+
+```bash
+# Dictate - English (Super+Ctrl+Alt+E to toggle)
+bindsym $mod+Ctrl+Alt+e exec uv run ~/code/dictate/dictate.py --type
+
+# Dictate - German
+bindsym $mod+Ctrl+Alt+d exec uv run ~/code/dictate/dictate.py --type -l de
+```
+
 ### GNOME
 
 1. Open **Settings** → **Keyboard** → **Keyboard Shortcuts** → **View and Customize Shortcuts**
 2. Scroll to **Custom Shortcuts** and click **+**
 3. Set:
    - Name: `Dictate`
-   - Command: `/full/path/to/dictate.py` (or `uv run /full/path/to/dictate.py`)
-   - Shortcut: Your preferred key (e.g., `Super+D` or a dedicated key)
+   - Command: `uv run /full/path/to/dictate.py --type`
+   - Shortcut: Your preferred key (e.g., `Super+Ctrl+Alt+E`)
 
 ### Other Desktop Environments
 
-Configure your DE's keybinding system to run the script. The same command can be used to both start and stop recording.
+Configure your DE's keybinding system to run the script. The same shortcut toggles recording on/off.
 
 ## Configuration
 
