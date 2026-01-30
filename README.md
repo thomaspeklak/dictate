@@ -1,6 +1,6 @@
 # Dictate
 
-Speech-to-text dictation tool for Linux/Wayland. Press a hotkey to start recording, press again to stop. Your speech is transcribed locally using [faster-whisper](https://github.com/SYSTRAN/faster-whisper), optionally cleaned up by Claude, and copied to your clipboard.
+Speech-to-text dictation tool for Linux/Wayland, designed to run via keyboard shortcut. Press your hotkey to start recording, press again to stop. Your speech is transcribed locally using [faster-whisper](https://github.com/SYSTRAN/faster-whisper), optionally cleaned up by Claude, and copied to your clipboard.
 
 ## Features
 
@@ -61,17 +61,24 @@ No additional installation steps needed - `uv` handles Python dependencies autom
 
 ## Usage
 
-### Basic Usage
+**This tool is designed to be triggered via a keyboard shortcut** (see [Setting Up a Keyboard Shortcut](#setting-up-a-keyboard-shortcut) below). The same shortcut both starts and stops recording.
+
+### How the Toggle Works
+
+1. **First press**: Starts recording (shows notification)
+2. **Second press**: Stops recording → transcribes → processes → copies to clipboard
+
+### Testing from the Shell
+
+When testing from a terminal, run in the background with `&` (otherwise Ctrl+C would kill the recording process):
 
 ```bash
-# Start recording (run once)
-uv run ./dictate.py
+# Start recording
+uv run ./dictate.py &
 
-# Stop recording and process (run again)
+# Stop and process (run again in any terminal)
 uv run ./dictate.py
 ```
-
-The tool uses a toggle mechanism: the first invocation starts recording, running it again stops recording and triggers the transcription pipeline.
 
 ### Command-Line Arguments
 
